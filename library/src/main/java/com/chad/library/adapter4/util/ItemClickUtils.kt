@@ -15,20 +15,18 @@ private abstract class DebouncedClickListener<T : Any>(private val interval: Lon
     private var mLastClickTime: Long = 0
 
     override fun onClick(adapter: BaseQuickAdapter<T, *>, view: View, position: Int) {
-        val nowTime = System.currentTimeMillis()
-        val diffTime = nowTime - mLastClickTime
-        // 当用户修改系统时间时，可能会导致diffTime为负数
-        if (diffTime >= interval || diffTime < 0) {
-            mLastClickTime = nowTime
-            onSingleClick(adapter, view, position)
-        }
+        handleClick(adapter, view, position)
     }
 
     override fun onItemClick(adapter: BaseQuickAdapter<T, *>, view: View, position: Int) {
+        handleClick(adapter, view, position)
+    }
+
+    private fun handleClick(adapter: BaseQuickAdapter<T, *>, view: View, position: Int) {
         val nowTime = System.currentTimeMillis()
         val diffTime = nowTime - mLastClickTime
         // 当用户修改系统时间时，可能会导致diffTime为负数
-        if (diffTime >= interval || diffTime < 0) {
+        if (diffTime !in 0..<interval) {
             mLastClickTime = nowTime
             onSingleClick(adapter, view, position)
         }

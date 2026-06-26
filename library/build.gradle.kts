@@ -1,6 +1,6 @@
 import java.io.FileInputStream
 import java.io.InputStreamReader
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -8,13 +8,13 @@ plugins {
     signing
 }
 
-val versionName = "4.3.4"
+val versionName = "4.4.1"
 
 
 android {
     namespace = "com.chad.library.adapter4"
 
-    compileSdk = 31
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 19
@@ -30,11 +30,6 @@ android {
     }
 
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     publishing {
         singleVariant("release") {
             // if you don't want sources/javadoc, remove these lines
@@ -45,7 +40,7 @@ android {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
     compilerOptions {
         freeCompilerArgs.addAll(
             "-module-name",
@@ -138,17 +133,17 @@ afterEvaluate {
         }
 
         repositories {
-            maven {
-                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-
 //            maven {
-//                setUrl("$rootDir/Repo")
+//                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+//                credentials {
+//                    username = ossrhUsername
+//                    password = ossrhPassword
+//                }
 //            }
+
+            maven {
+                setUrl("$rootDir/Repo")
+            }
         }
 
     }
